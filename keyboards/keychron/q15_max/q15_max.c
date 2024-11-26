@@ -59,3 +59,19 @@ bool lpm_is_kb_idle(void) {
     return !factory_reset_indicating();
 }
 #endif
+
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LT(2,KC_BSPC):
+        case LT(3,KC_EQL):
+        case MT(MOD_LCTL,KC_ESC):
+        case MT(MOD_LALT | MOD_RALT,KC_MINS):
+        case MT(MOD_LCTL | MOD_RCTL,KC_QUOT):
+        case MT(MOD_LSFT | MOD_RSFT,KC_BSLS):
+            // Immediately select the hold action when another key is pressed.
+            return true;
+        default:
+            // Do not select the hold action when another key is pressed.
+            return false;
+    }
+}
